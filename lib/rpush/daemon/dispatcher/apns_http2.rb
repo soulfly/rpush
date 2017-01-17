@@ -15,9 +15,12 @@ module Rpush
           @delivery_class = delivery_class
 
           url = URLS[app.environment.to_sym]
-          @client = NetHttp2::Client.new(url,
+          options = {
             ssl_context:     prepare_ssl_context,
-            connect_timeout: DEFAULT_TIMEOUT)
+            connect_timeout: DEFAULT_TIMEOUT
+          }.merge(Rpush.config.proxy_settings)
+
+          @client = NetHttp2::Client.new(url, options)
         end
 
         def dispatch(payload)

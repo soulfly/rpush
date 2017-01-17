@@ -16,7 +16,9 @@ module Rpush
     end
   end
 
-  CURRENT_ATTRS = [:push_poll, :embedded, :pid_file, :batch_size, :push, :client, :logger, :log_file, :foreground, :log_level, :plugin, :apns]
+  CURRENT_ATTRS = [:push_poll, :embedded, :pid_file, :batch_size, :push,
+    :client, :logger, :log_file, :foreground, :log_level, :plugin, :apns,
+    :proxy_settings]
   DEPRECATED_ATTRS = []
   CONFIG_ATTRS = CURRENT_ATTRS + DEPRECATED_ATTRS
 
@@ -96,6 +98,10 @@ module Rpush
 
     def redis_options=(options)
       Modis.redis_options = options if client == :redis
+    end
+
+    def proxy_settings
+      super || {}
     end
 
     def initialize_client
