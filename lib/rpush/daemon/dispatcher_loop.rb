@@ -21,6 +21,7 @@ module Rpush
       def start
         @started_at = Time.now
 
+        Thread.abort_on_exception = true
         @thread = Thread.new do
           loop do
             payload = @queue.pop
