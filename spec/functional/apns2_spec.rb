@@ -66,7 +66,8 @@ describe 'APNs http2 adapter' do
         # imitate HTTP2 delay
         thread = Thread.new { sleep(0.01); block.call }
       }
-    expect(fake_client).to receive(:join) { thread.join }
+    expect_any_instance_of(Rpush::Daemon::Batch).to receive(:all_processed)
+      .and_wrap_original { |m| thread.join; m.call }
 
     expect(fake_client)
       .to receive(:prepare_request)

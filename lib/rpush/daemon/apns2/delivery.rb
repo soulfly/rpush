@@ -20,9 +20,6 @@ module Rpush
           @batch.each_notification do |notification|
             prepare_async_post(notification)
           end
-
-          # Send all preprocessed requests at once
-          @client.join
         rescue Errno::ECONNREFUSED, SocketError => error
           mark_batch_retryable(Time.now + 10.seconds, error)
           raise

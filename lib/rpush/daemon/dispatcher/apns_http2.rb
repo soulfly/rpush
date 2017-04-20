@@ -28,6 +28,7 @@ module Rpush
         end
 
         def cleanup
+          @client.join
           @client.close
         end
 
